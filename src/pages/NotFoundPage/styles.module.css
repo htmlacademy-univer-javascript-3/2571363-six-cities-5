@@ -1,0 +1,30 @@
+.errorPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.errorBlock {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  padding: 4em;
+}
+
+.errorCode {
+  margin: 0;
+  font-size: 100px;
+  color: #f44336;
+}
+
+.errorMessage {
+  margin: 0;
+}
+
+.linkMain {
+  text-decoration: underline;
+}
