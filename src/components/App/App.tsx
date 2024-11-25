@@ -5,13 +5,14 @@ import FavoritesPage from '@pages/FavoritesPage/FavoritesPage';
 import OfferPage from '@pages/OfferPage/OfferPage';
 import NotFoundPage from '@pages/NotFoundPage/NotFoundPage';
 import AuthChecker from '@components/AuthChecker/AuthChecker';
-import { TPlaceCardEntity } from '../PlaceCard/PlaceCard.typings/PlaceCard.typings';
+import { TPlaceEntity } from '../PlaceCard/PlaceCard.typings/PlaceCard.typings';
 
 type TProps = {
-  places: TPlaceCardEntity[];
+  places: TPlaceEntity[];
+  favoritesPlaces: TPlaceEntity[];
 };
 
-function App({ places }: TProps): JSX.Element {
+function App({ places, favoritesPlaces }: TProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
@@ -20,7 +21,10 @@ function App({ places }: TProps): JSX.Element {
         <Route
           path="/favorites"
           element={
-            <AuthChecker element={<FavoritesPage />} isAuthorized={false} />
+            <AuthChecker
+              element={<FavoritesPage places={favoritesPlaces} />}
+              isAuthorized={false}
+            />
           }
         />
         <Route path="/offer/:id" element={<OfferPage />} />

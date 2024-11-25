@@ -1,8 +1,8 @@
-import PlaceCard from '@components/PlaceCard/PlaceCard';
-import { TPlaceCardEntity } from '@components/PlaceCard/PlaceCard.typings/PlaceCard.typings';
+import OffersList from '@components/OffersList/OffersList';
+import { TPlaceEntity } from '@components/PlaceCard/PlaceCard.typings/PlaceCard.typings';
 
 type TProps = {
-  places: TPlaceCardEntity[];
+  places: TPlaceEntity[];
 };
 
 const MainPage = ({ places }: TProps): JSX.Element => (
@@ -116,9 +116,7 @@ const MainPage = ({ places }: TProps): JSX.Element => (
               </ul>
             </form>
             <div className="cities__places-list places__list tabs__content">
-              {places.map((place) => (
-                <PlaceCard {...place} key={place.name} />
-              ))}
+              <OffersList offers={places} />
             </div>
           </section>
           <div className="cities__right-section">
