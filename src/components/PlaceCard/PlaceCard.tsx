@@ -1,57 +1,70 @@
-import { TPlaceCardEntity } from './PlaceCard.typings/PlaceCard.typings';
+import { MouseEventHandler } from 'react';
+import { Link } from 'react-router-dom';
+import Rating from '@components/Rating/Rating';
+import BookmarkButton from '@components/BookmarkButton/BookmarkButton';
+import { TPlaceEntity } from './PlaceCard.typings/PlaceCard.typings';
+
+type TPlaceProps = {
+  place: TPlaceEntity;
+  onMouseOver?: MouseEventHandler;
+  onMouseLeave?: MouseEventHandler;
+  type: 'Main' | 'Favorites';
+};
 
 function PlaceCard({
-  mark,
-  imageSrc,
-  priceValue,
-  priceType,
-  starRating,
-  name,
+  place,
+  onMouseOver,
+  onMouseLeave,
   type,
-}: TPlaceCardEntity): JSX.Element {
+}: TPlaceProps): JSX.Element {
+  const coverImage = place.images.filter((el) => el.isCoverImage);
   return (
-    <article className="cities__card place-card">
-      {mark ? (
+    <article
+      className={`${
+        type === 'Main' ? 'cities__card' : 'favorites__card'
+      } place-card`}
+      onMouseOver={onMouseOver}
+      onMouseLeave={onMouseLeave}
+    >
+      {place.mark ? (
         <div className="place-card__mark">
-          <span>{mark}</span>
+          <span>{place.mark}</span>
         </div>
       ) : null}
-      <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
+      <div
+        className={`${
+          type === 'Main' ? 'cities__image-wrapper' : 'favorites__image-wrapper'
+        } place-card__image-wrapper`}
+      >
+        <Link to={`/offer/${place.id}`}>
           <img
             className="place-card__image"
-            src={imageSrc}
-            width="260"
-            height="200"
-            alt="Place image"
+            src={coverImage[0].src}
+            width={type === 'Main' ? '260' : '150'}
+            height={type === 'Main' ? '200' : '110'}
+            alt={coverImage[0].alt}
           />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">&euro;{priceValue}</b>
+            <b className="place-card__price-value">&euro;{place.price.value}</b>
             <span className="place-card__price-text">
-              &#47;&nbsp;{priceType}
+              &#47;&nbsp;{place.price.period}
             </span>
           </div>
-          <button className="place-card__bookmark-button button" type="button">
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+          <BookmarkButton marked={type !== 'Main'} />
         </div>
-        <div className="place-card__rating rating">
-          <div className="place-card__stars rating__stars">
-            <span style={{ width: `${20 * starRating}%` }}></span>
-            <span className="visually-hidden">Rating</span>
-          </div>
-        </div>
+        <Rating
+          starValue={place.rating.starValue}
+          containerClassName={'place-card__rating'}
+          starsClassName={'place-card__stars'}
+        />
         <h2 className="place-card__name">
-          <a href="#">{name}</a>
+          <Link to={`/offer/${place.id}`}>{place.name}</Link>
         </h2>
-        <p className="place-card__type">{type}</p>
+        <p className="place-card__type">{place.features.placeType}</p>
       </div>
     </article>
   );
