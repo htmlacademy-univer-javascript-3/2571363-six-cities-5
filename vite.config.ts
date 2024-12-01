@@ -18,7 +18,7 @@ export default defineConfig({
       '@pages': resolve(__dirname, 'src/pages'),
       '@components': resolve(__dirname, 'src/components'),
       '@mocks': resolve(__dirname, 'src/mocks'),
-      '@types': resolve(__dirname, 'src/types'),
+      '@typings': resolve(__dirname, 'src/typings'),
       '@utils': resolve(__dirname, 'src/utils'),
     },
   },

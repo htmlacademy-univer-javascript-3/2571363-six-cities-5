@@ -1,5 +1,6 @@
 import { MouseEventHandler } from 'react';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 import Rating from '@components/Rating/Rating';
 import BookmarkButton from '@components/BookmarkButton/BookmarkButton';
 import { TPlaceEntity } from './PlaceCard.typings/PlaceCard.typings';
@@ -8,7 +9,28 @@ type TPlaceProps = {
   place: TPlaceEntity;
   onMouseOver?: MouseEventHandler;
   onMouseLeave?: MouseEventHandler;
-  type: 'Main' | 'Favorites';
+  type: 'Main' | 'Favorites' | 'Nearby';
+};
+
+const offerViewConfig = {
+  Main: {
+    cardClassName: 'cities__card',
+    imageWrapperClassName: 'cities__image-wrapper',
+    imageWidth: '260',
+    imageHeight: '200',
+  },
+  Favorites: {
+    cardClassName: 'favorites__card',
+    imageWrapperClassName: 'favorites__image-wrapper',
+    imageWidth: '150',
+    imageHeight: '110',
+  },
+  Nearby: {
+    cardClassName: 'near-places__card',
+    imageWrapperClassName: 'near-places__image-wrapper',
+    imageWidth: '260',
+    imageHeight: '200',
+  },
 };
 
 function PlaceCard({
@@ -18,11 +40,12 @@ function PlaceCard({
   type,
 }: TPlaceProps): JSX.Element {
   const coverImage = place.images.filter((el) => el.isCoverImage);
+
+  const viewConfig = offerViewConfig[type];
+
   return (
     <article
-      className={`${
-        type === 'Main' ? 'cities__card' : 'favorites__card'
-      } place-card`}
+      className={classNames(viewConfig.cardClassName, 'place-card')}
       onMouseOver={onMouseOver}
       onMouseLeave={onMouseLeave}
     >
@@ -32,16 +55,17 @@ function PlaceCard({
         </div>
       ) : null}
       <div
-        className={`${
-          type === 'Main' ? 'cities__image-wrapper' : 'favorites__image-wrapper'
-        } place-card__image-wrapper`}
+        className={classNames(
+          viewConfig.imageWrapperClassName,
+          'place-card__image-wrapper'
+        )}
       >
         <Link to={`/offer/${place.id}`}>
           <img
             className="place-card__image"
             src={coverImage[0].src}
-            width={type === 'Main' ? '260' : '150'}
-            height={type === 'Main' ? '200' : '110'}
+            width={viewConfig.imageWidth}
+            height={viewConfig.imageHeight}
             alt={coverImage[0].alt}
           />
         </Link>
@@ -54,7 +78,7 @@ function PlaceCard({
               &#47;&nbsp;{place.price.period}
             </span>
           </div>
-          <BookmarkButton marked={type !== 'Main'} />
+          <BookmarkButton marked={type === 'Favorites'} />
         </div>
         <Rating
           starValue={place.rating.starValue}

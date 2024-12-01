@@ -107,9 +107,18 @@ export const allOffers: TPlaceEntity[] = [
         text: 'An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.',
       },
     ],
+    host: {
+      avatarImageSrc: 'img/avatar-angelina.jpg',
+      name: 'Angelina',
+      status: 'Pro',
+    },
     reviews: [
       {
         id: 'a31fc9e3-e38c-4980-8a2e-fa076cf84d5c',
+        user: {
+          avatarImageSrc: 'img/avatar-max.jpg',
+          name: 'Max',
+        },
         stars: 4,
         text: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
         datetime: '2019-04-24',
@@ -196,9 +205,18 @@ export const allOffers: TPlaceEntity[] = [
         text: 'An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.',
       },
     ],
+    host: {
+      avatarImageSrc: 'img/avatar-angelina.jpg',
+      name: 'Angelina',
+      status: 'Pro',
+    },
     reviews: [
       {
         id: 'e2fac560-cdcb-4444-8609-a7402daa15d2',
+        user: {
+          avatarImageSrc: 'img/avatar-max.jpg',
+          name: 'Max',
+        },
         stars: 4,
         text: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
         datetime: '2019-04-24',
@@ -310,9 +328,18 @@ export const allOffers: TPlaceEntity[] = [
         text: 'An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.',
       },
     ],
+    host: {
+      avatarImageSrc: 'img/avatar-angelina.jpg',
+      name: 'Angelina',
+      status: 'Pro',
+    },
     reviews: [
       {
         id: '53497280-6bc3-44c0-a308-f9fa4b36b3b9',
+        user: {
+          avatarImageSrc: 'img/avatar-max.jpg',
+          name: 'Max',
+        },
         stars: 4,
         text: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
         datetime: '2019-04-24',
@@ -424,9 +451,18 @@ export const allOffers: TPlaceEntity[] = [
         text: 'An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.',
       },
     ],
+    host: {
+      avatarImageSrc: 'img/avatar-angelina.jpg',
+      name: 'Angelina',
+      status: 'Pro',
+    },
     reviews: [
       {
         id: '7b08ac81-d317-4bed-a4f9-bdc7000ccacb',
+        user: {
+          avatarImageSrc: 'img/avatar-max.jpg',
+          name: 'Max',
+        },
         stars: 4,
         text: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
         datetime: '2019-04-24',
@@ -513,9 +549,18 @@ export const allOffers: TPlaceEntity[] = [
         text: 'An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.',
       },
     ],
+    host: {
+      avatarImageSrc: 'img/avatar-angelina.jpg',
+      name: 'Angelina',
+      status: 'Pro',
+    },
     reviews: [
       {
         id: '2df1b93d-c8e6-4e9f-8522-aece081c0f11',
+        user: {
+          avatarImageSrc: 'img/avatar-max.jpg',
+          name: 'Max',
+        },
         stars: 5,
         text: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
         datetime: '2019-04-24',
