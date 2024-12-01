@@ -7,12 +7,12 @@ import NotFoundPage from '@pages/NotFoundPage/NotFoundPage';
 import AuthChecker from '@components/AuthChecker/AuthChecker';
 import { TPlaceEntity } from '../PlaceCard/PlaceCard.typings/PlaceCard.typings';
 
-type TProps = {
+type TAppProps = {
   places: TPlaceEntity[];
   favoritesPlaces: TPlaceEntity[];
 };
 
-function App({ places, favoritesPlaces }: TProps): JSX.Element {
+function App({ places, favoritesPlaces }: TAppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>

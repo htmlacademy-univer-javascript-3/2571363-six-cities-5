@@ -1,3 +1,5 @@
+import { City } from '../../../types/City/City';
+
 export type TPlacePriceType = 'night';
 
 export type TPlaceType = 'Apartment' | 'Room';
@@ -47,7 +49,9 @@ export type TPlaceReview = {
 
 export type TPlaceEntity = {
   id: string;
-  city: string;
+  city: City;
+  latitude: number;
+  longitude: number;
   images: TPlaceImage[];
   mark?: TPlaceMark;
   name: string;

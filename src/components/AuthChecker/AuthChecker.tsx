@@ -1,6 +1,6 @@
 import LoginPage from '@pages/LoginPage/LoginPage';
 
-type AuthorizedRouteProps = {
+type TAuthCheckerProps = {
   element: JSX.Element;
   isAuthorized: boolean;
 };
@@ -8,7 +8,6 @@ type AuthorizedRouteProps = {
 const AuthChecker = ({
   element,
   isAuthorized,
-}: AuthorizedRouteProps): JSX.Element =>
-  isAuthorized ? element : <LoginPage />;
+}: TAuthCheckerProps): JSX.Element => (isAuthorized ? element : <LoginPage />);
 
 export default AuthChecker;
