@@ -5,8 +5,9 @@ import OffersList from '@components/OffersList/OffersList';
 import { TPlaceEntity } from '@components/PlaceCard/PlaceCard.typings/PlaceCard.typings';
 import { LocationsTabs } from '@components/LocationsTabs/LocationsTabs';
 import { cities } from '@mocks/Cities/Cities';
-import { getActiveOffers } from '@utils/getActiveOffers/getActiveOffers';
-import { City, Point } from '../../types/City/City';
+import getActiveOffers from '@utils/getActiveOffers/getActiveOffers';
+import offersToPoints from '@utils/offersToPoints/offersToPoints';
+import { City, Point } from '../../typings/City/City';
 
 type TProps = {
   places: TPlaceEntity[];
@@ -25,24 +26,14 @@ const MainPage = ({ places }: TProps): JSX.Element => {
     setActiveOffers(getActiveOffers(places, activeCity));
   }, [places, activeCity]);
 
-  const getOffersPoints = (allPlaces: TPlaceEntity[]): Point[] => {
-    const points: Point[] = [];
-    allPlaces.map((offer) =>
-      points.push({
-        title: offer.name,
-        lat: offer.latitude,
-        lng: offer.longitude,
-      })
-    );
-    return points;
-  };
-
   const handleTabsClick = (city: City) => setActiveCity(city);
 
-  const [offersPoints, setOffersPoints] = useState(getOffersPoints(places));
+  const [offersPoints, setOffersPoints] = useState<Point[]>(
+    offersToPoints(places)
+  );
 
   useEffect(() => {
-    setOffersPoints(getOffersPoints(activeOffers));
+    setOffersPoints(offersToPoints(activeOffers));
   }, [activeOffers]);
 
   const [activePoint] = useState(undefined);
@@ -92,15 +83,20 @@ const MainPage = ({ places }: TProps): JSX.Element => {
               </ul>
             </form> */}
               <div className="cities__places-list places__list tabs__content">
-                <OffersList offers={activeOffers} />
+                <OffersList offers={activeOffers} type="Main" />
               </div>
             </section>
             <div className="cities__right-section">
-              <Map
-                city={activeCity}
-                points={offersPoints}
-                selectedPoint={activePoint}
-              />
+              <section
+                className="cities__map map"
+                style={{ background: 'none' }}
+              >
+                <Map
+                  city={activeCity}
+                  points={offersPoints}
+                  selectedPoint={activePoint}
+                />
+              </section>
             </div>
           </div>
         </div>

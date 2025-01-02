@@ -1,4 +1,6 @@
-import { City } from '../../../types/City/City';
+import { City } from '@typings/City/City';
+import { TReviewItem } from '@typings/Review/Review';
+import { TUserEntity } from '@typings/User/User';
 
 export type TPlacePriceType = 'night';
 
@@ -39,14 +41,6 @@ export type TPlaceDescriptionItem = {
   text: string;
 };
 
-export type TPlaceReview = {
-  id: string;
-  stars: 1 | 2 | 3 | 4 | 5;
-  text: string;
-  datetime: string;
-  readableDate: string;
-};
-
 export type TPlaceEntity = {
   id: string;
   city: City;
@@ -55,10 +49,11 @@ export type TPlaceEntity = {
   images: TPlaceImage[];
   mark?: TPlaceMark;
   name: string;
+  host: TUserEntity;
   rating: TPlaceRating;
   features: TPlaceFeatures;
   price: TPlacePrice;
   insideList: TPlaceInsideItem[];
   description: TPlaceDescriptionItem[];
-  reviews: TPlaceReview[];
+  reviews: TReviewItem[];
 };

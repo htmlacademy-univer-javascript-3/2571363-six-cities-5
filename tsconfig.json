@@ -10,7 +10,7 @@
       "@pages/*": ["pages/*"],
       "@components/*": ["components/*"],
       "@mocks/*": ["mocks/*"],
-      "@types/*": ["types/*"],
+      "@typings/*": ["typings/*"],
       "@utils/*": ["utils/*"]
     },
 
