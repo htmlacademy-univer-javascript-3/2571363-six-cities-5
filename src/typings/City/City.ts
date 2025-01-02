@@ -13,8 +13,10 @@ export type CityName =
   | 'Dusseldorf';
 
 export type City = {
-  title: CityName;
-  lat: number;
-  lng: number;
-  zoom: number;
+  name: CityName;
+  location: {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+  };
 };

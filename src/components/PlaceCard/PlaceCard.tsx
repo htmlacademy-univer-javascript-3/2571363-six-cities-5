@@ -34,7 +34,6 @@ const offerViewConfig = {
 };
 
 function PlaceCard({ place, type, onOfferSelect }: TPlaceProps): JSX.Element {
-  const coverImage = place.images.filter((el) => el.isCoverImage);
   const offerPoint = offersToPoints([place])[0];
 
   const viewConfig = offerViewConfig[type];
@@ -45,9 +44,9 @@ function PlaceCard({ place, type, onOfferSelect }: TPlaceProps): JSX.Element {
       onMouseOver={onOfferSelect ? () => onOfferSelect(offerPoint) : undefined}
       onMouseLeave={onOfferSelect ? () => onOfferSelect(undefined) : undefined}
     >
-      {place.mark ? (
+      {place.isPremium ? (
         <div className="place-card__mark">
-          <span>{place.mark}</span>
+          <span>Premium</span>
         </div>
       ) : null}
       <div
@@ -59,32 +58,30 @@ function PlaceCard({ place, type, onOfferSelect }: TPlaceProps): JSX.Element {
         <Link to={`/offer/${place.id}`}>
           <img
             className="place-card__image"
-            src={coverImage[0].src}
+            src={place.previewImage}
             width={viewConfig.imageWidth}
             height={viewConfig.imageHeight}
-            alt={coverImage[0].alt}
+            alt={place.title}
           />
         </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">&euro;{place.price.value}</b>
-            <span className="place-card__price-text">
-              &#47;&nbsp;{place.price.period}
-            </span>
+            <b className="place-card__price-value">&euro;{place.price}</b>
+            <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <BookmarkButton marked={type === 'Favorites'} />
         </div>
         <Rating
-          starValue={place.rating.starValue}
+          starValue={place.rating}
           containerClassName={'place-card__rating'}
           starsClassName={'place-card__stars'}
         />
         <h2 className="place-card__name">
-          <Link to={`/offer/${place.id}`}>{place.name}</Link>
+          <Link to={`/offer/${place.id}`}>{place.title}</Link>
         </h2>
-        <p className="place-card__type">{place.features.placeType}</p>
+        <p className="place-card__type">{place.type}</p>
       </div>
     </article>
   );
