@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from '@store/index';
 import MainPage from '@pages/MainPage/MainPage';
 import LoginPage from '@pages/LoginPage/LoginPage';
 import FavoritesPage from '@pages/FavoritesPage/FavoritesPage';
@@ -8,29 +10,30 @@ import AuthChecker from '@components/AuthChecker/AuthChecker';
 import { TPlaceEntity } from '../PlaceCard/PlaceCard.typings/PlaceCard.typings';
 
 type TAppProps = {
-  places: TPlaceEntity[];
   favoritesPlaces: TPlaceEntity[];
 };
 
-function App({ places, favoritesPlaces }: TAppProps): JSX.Element {
+function App({ favoritesPlaces }: TAppProps): JSX.Element {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<MainPage places={places} />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route
-          path="/favorites"
-          element={
-            <AuthChecker
-              element={<FavoritesPage places={favoritesPlaces} />}
-              isAuthorized={false}
-            />
-          }
-        />
-        <Route path="/offer/:id" element={<OfferPage />} />
-        <Route path="/*" element={<NotFoundPage />} />
-      </Routes>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route
+            path="/favorites"
+            element={
+              <AuthChecker
+                element={<FavoritesPage places={favoritesPlaces} />}
+                isAuthorized={false}
+              />
+            }
+          />
+          <Route path="/offer/:id" element={<OfferPage />} />
+          <Route path="/*" element={<NotFoundPage />} />
+        </Routes>
+      </BrowserRouter>
+    </Provider>
   );
 }
 

@@ -20,6 +20,7 @@ export default defineConfig({
       '@mocks': resolve(__dirname, 'src/mocks'),
       '@typings': resolve(__dirname, 'src/typings'),
       '@utils': resolve(__dirname, 'src/utils'),
+      '@store': resolve(__dirname, 'src/store'),
     },
   },
 });
