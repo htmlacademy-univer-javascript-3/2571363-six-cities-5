@@ -1,40 +1,30 @@
 import { useState, useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { setOffers } from '@store/actions';
 import Header from '@components/Header/Header';
 import Map from '@components/Map/Map';
 import OffersList from '@components/OffersList/OffersList';
-import { TPlaceEntity } from '@components/PlaceCard/PlaceCard.typings/PlaceCard.typings';
 import { LocationsTabs } from '@components/LocationsTabs/LocationsTabs';
-import { cities } from '@mocks/Cities/Cities';
-import getActiveOffers from '@utils/getActiveOffers/getActiveOffers';
+import getCityOffers from '@utils/getCityOffers/getCityOffers';
 import offersToPoints from '@utils/offersToPoints/offersToPoints';
-import { City, Point } from '../../typings/City/City';
+import { Point } from '@typings/City/City';
 
-type TProps = {
-  places: TPlaceEntity[];
-};
-
-const defaultCity = cities['Amsterdam'];
-
-const MainPage = ({ places }: TProps): JSX.Element => {
-  const [activeCity, setActiveCity] = useState(defaultCity);
-
-  const [activeOffers, setActiveOffers] = useState<TPlaceEntity[]>(
-    getActiveOffers(places, activeCity)
-  );
+const MainPage = (): JSX.Element => {
+  const dispatch = useAppDispatch();
+  const city = useAppSelector((state) => state.city);
+  const offers = useAppSelector((state) => state.offers);
 
   useEffect(() => {
-    setActiveOffers(getActiveOffers(places, activeCity));
-  }, [places, activeCity]);
-
-  const handleTabsClick = (city: City) => setActiveCity(city);
+    dispatch(setOffers(getCityOffers(city)));
+  }, [dispatch, city]);
 
   const [offersPoints, setOffersPoints] = useState<Point[]>(
-    offersToPoints(places)
+    offersToPoints(offers)
   );
 
   useEffect(() => {
-    setOffersPoints(offersToPoints(activeOffers));
-  }, [activeOffers]);
+    setOffersPoints(offersToPoints(offers));
+  }, [offers]);
 
   const [activePoint] = useState(undefined);
   return (
@@ -42,19 +32,13 @@ const MainPage = ({ places }: TProps): JSX.Element => {
       <Header isAuth />
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
-        <div className="tabs">
-          <LocationsTabs
-            cities={cities}
-            handleClick={handleTabsClick}
-            activeCity={activeCity}
-          />
-        </div>
+        <LocationsTabs />
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">
-                {activeOffers.length} places to stay in {activeCity.title}
+                {offers.length} places to stay in {city.title}
               </b>
               {/* <form className="places__sorting" action="#" method="get">
               <span className="places__sorting-caption">Sort by</span>
@@ -83,7 +67,7 @@ const MainPage = ({ places }: TProps): JSX.Element => {
               </ul>
             </form> */}
               <div className="cities__places-list places__list tabs__content">
-                <OffersList offers={activeOffers} type="Main" />
+                <OffersList offers={offers} type="Main" />
               </div>
             </section>
             <div className="cities__right-section">
@@ -92,7 +76,7 @@ const MainPage = ({ places }: TProps): JSX.Element => {
                 style={{ background: 'none' }}
               >
                 <Map
-                  city={activeCity}
+                  city={city}
                   points={offersPoints}
                   selectedPoint={activePoint}
                 />
