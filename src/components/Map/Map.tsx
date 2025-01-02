@@ -1,13 +1,13 @@
 import { useRef, useEffect } from 'react';
 import { Icon, Marker, layerGroup } from 'leaflet';
 import useMap from './Map.utils/useMap';
-import { City, Point } from '../../typings/City/City';
+import { City, Point } from '@typings/City/City';
 import 'leaflet/dist/leaflet.css';
 
 type TMapProps = {
   city: City;
   points: Point[];
-  selectedPoint?: Point;
+  selectedPoint: Point | undefined;
 };
 
 const defaultCustomIcon = new Icon({
@@ -39,7 +39,9 @@ function Map(props: TMapProps): JSX.Element {
 
         marker
           .setIcon(
-            selectedPoint !== undefined && point.title === selectedPoint.title
+            selectedPoint !== undefined &&
+              point.lat === selectedPoint.lat &&
+              point.lng === selectedPoint?.lng
               ? currentCustomIcon
               : defaultCustomIcon
           )
@@ -53,9 +55,9 @@ function Map(props: TMapProps): JSX.Element {
   }, [map, points, selectedPoint]);
 
   return (
-    // <section className="offer__map map" style={{ background: 'none' }}>
-    <div style={{ height: '100%' }} ref={mapRef}></div>
-    // </section>
+    <section className="cities__map map" style={{ background: 'none' }}>
+      <div style={{ height: '100%' }} ref={mapRef}></div>
+    </section>
   );
 }
 

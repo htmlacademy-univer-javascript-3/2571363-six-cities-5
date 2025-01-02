@@ -1,6 +1,6 @@
 import { City } from '@typings/City/City';
-import { TReviewItem } from '@typings/Review/Review';
-import { TUserEntity } from '@typings/User/User';
+// import { TReviewItem } from '@typings/Review/Review';
+// import { TUserEntity } from '@typings/User/User';
 
 export type TPlacePriceType = 'night';
 
@@ -41,19 +41,21 @@ export type TPlaceDescriptionItem = {
   text: string;
 };
 
+export type TPlaceEntityLocation = {
+  latitude: number;
+  longitude: number;
+  zoom: number;
+};
+
 export type TPlaceEntity = {
   id: string;
   city: City;
-  latitude: number;
-  longitude: number;
-  images: TPlaceImage[];
-  mark?: TPlaceMark;
-  name: string;
-  host: TUserEntity;
-  rating: TPlaceRating;
-  features: TPlaceFeatures;
-  price: TPlacePrice;
-  insideList: TPlaceInsideItem[];
-  description: TPlaceDescriptionItem[];
-  reviews: TReviewItem[];
+  isFavorite: boolean;
+  isPremium: false;
+  location: TPlaceEntityLocation;
+  previewImage: string;
+  price: number;
+  rating: number;
+  title: string;
+  type: 'string';
 };

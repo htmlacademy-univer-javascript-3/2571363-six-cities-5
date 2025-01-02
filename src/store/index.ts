@@ -1,6 +1,17 @@
-import { configureStore } from '@reduxjs/toolkit';
-import reducer from './reducer';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import offersSlice from './offersSlice';
+import { api } from '@services/index';
 
-export const store = configureStore({ reducer });
+const rootReducer = combineReducers({
+  offersSlice,
+});
 
-export type RootState = ReturnType<typeof store.getState>;
+export const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      thunk: {
+        extraArgument: { api },
+      },
+    }),
+});

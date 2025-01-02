@@ -21,6 +21,7 @@ export default defineConfig({
       '@typings': resolve(__dirname, 'src/typings'),
       '@utils': resolve(__dirname, 'src/utils'),
       '@store': resolve(__dirname, 'src/store'),
+      '@services': resolve(__dirname, 'src/services'),
     },
   },
 });
