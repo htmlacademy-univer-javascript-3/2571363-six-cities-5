@@ -1,15 +1,15 @@
-import { MouseEventHandler } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import Rating from '@components/Rating/Rating';
 import BookmarkButton from '@components/BookmarkButton/BookmarkButton';
 import { TPlaceEntity } from './PlaceCard.typings/PlaceCard.typings';
+import { Point } from '@typings/City/City';
+import offersToPoints from '@utils/offersToPoints/offersToPoints';
 
 type TPlaceProps = {
   place: TPlaceEntity;
-  onMouseOver?: MouseEventHandler;
-  onMouseLeave?: MouseEventHandler;
   type: 'Main' | 'Favorites' | 'Nearby';
+  onOfferSelect?: (point: Point | undefined) => void;
 };
 
 const offerViewConfig = {
@@ -33,21 +33,17 @@ const offerViewConfig = {
   },
 };
 
-function PlaceCard({
-  place,
-  onMouseOver,
-  onMouseLeave,
-  type,
-}: TPlaceProps): JSX.Element {
+function PlaceCard({ place, type, onOfferSelect }: TPlaceProps): JSX.Element {
   const coverImage = place.images.filter((el) => el.isCoverImage);
+  const offerPoint = offersToPoints([place])[0];
 
   const viewConfig = offerViewConfig[type];
 
   return (
     <article
       className={classNames(viewConfig.cardClassName, 'place-card')}
-      onMouseOver={onMouseOver}
-      onMouseLeave={onMouseLeave}
+      onMouseOver={onOfferSelect ? () => onOfferSelect(offerPoint) : undefined}
+      onMouseLeave={onOfferSelect ? () => onOfferSelect(undefined) : undefined}
     >
       {place.mark ? (
         <div className="place-card__mark">

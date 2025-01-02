@@ -1,16 +1,19 @@
-import { useState } from 'react';
 import classNames from 'classnames';
 import PlaceCard from '@components/PlaceCard/PlaceCard';
 import { TPlaceEntity } from '@components/PlaceCard/PlaceCard.typings/PlaceCard.typings';
+import { Point } from '@typings/City/City';
 
 type TOffersListProps = {
   offers: TPlaceEntity[];
   type: 'Main' | 'Nearby';
+  onOfferSelect?: (point: Point | undefined) => void;
 };
 
-const OffersList = ({ offers, type }: TOffersListProps): JSX.Element => {
-  const [, setActiveOfferId] = useState<string | null>(null);
-
+const OffersList = ({
+  offers,
+  type,
+  onOfferSelect,
+}: TOffersListProps): JSX.Element => {
   let containerClassName: string;
 
   switch (type) {
@@ -28,12 +31,7 @@ const OffersList = ({ offers, type }: TOffersListProps): JSX.Element => {
         <PlaceCard
           place={offer}
           key={offer.id}
-          onMouseOver={() => {
-            setActiveOfferId(offer.id);
-          }}
-          onMouseLeave={() => {
-            setActiveOfferId(null);
-          }}
+          onOfferSelect={onOfferSelect}
           type={type}
         />
       ))}
