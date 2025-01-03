@@ -18,3 +18,14 @@ export const API_ROUTES = {
     LOGOUT: '/logout',
   },
 };
+
+export const APP_ROUTES = {
+  MAIN: '/',
+  LOGIN: '/login',
+  FAVORITES: 'favorites',
+  OFFER: '/offer/:id',
+};
+
+export const TOKEN_HEADER = 'X-Token';
+
+export const TOKEN_KEY = 'six-cities-token';

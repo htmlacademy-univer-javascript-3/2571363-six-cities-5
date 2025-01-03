@@ -6,6 +6,8 @@ import filterOffers from '@utils/filterOffers/filterOffers';
 import sortOffers from '@utils/sortOffers/sortOffers';
 import { City } from '@typings/City/City';
 import { TPlaceEntity } from '@components/PlaceCard/PlaceCard.typings/PlaceCard.typings';
+import { TAuthInfo, TUserEntity } from '@typings/User/User';
+import { clearToken, setToken } from '@utils/user/user';
 
 export const Actions = {
   SET_CITY: 'city/set',
@@ -16,6 +18,11 @@ export const Actions = {
   APPLY_SORT_ORDER: 'sortOrder/apply',
   UPDATE_CITY_OFFERS: 'cityOffers/update',
   FETCH_GLOBAL_OFFERS: 'globalOffers/fetch',
+  SET_AUTHORIZATION_STATUS: 'authorizationStatus/set',
+  SET_USER_DATA: 'userData/set',
+  VALIDATE_USER: 'user/validate',
+  LOGIN: 'user/login',
+  LOGOUT: 'user/logout',
 };
 
 export const setCity = createAction<City>(Actions.SET_CITY);
@@ -79,3 +86,56 @@ export const getGlobalOffers = createAsyncThunk<
     return thunkApi.rejectWithValue(errorHandler(error));
   }
 });
+
+export const setAuthorizationStatus = createAction<boolean>(
+  Actions.SET_AUTHORIZATION_STATUS
+);
+
+export const setUserData = createAction<TUserEntity | null>(
+  Actions.SET_USER_DATA
+);
+
+export const validateUser = createAsyncThunk<void, void, AsyncThunkConfig>(
+  Actions.VALIDATE_USER,
+  async (_, thunkApi) => {
+    try {
+      const response = await thunkApi.extra.api.get<TUserEntity>(
+        API_ROUTES.USER.VALIDATE
+      );
+      thunkApi.dispatch(setAuthorizationStatus(true));
+      thunkApi.dispatch(setUserData(response.data));
+    } catch (error) {
+      clearToken();
+      thunkApi.dispatch(setAuthorizationStatus(false));
+      thunkApi.dispatch(setUserData(null));
+    }
+  }
+);
+
+export const login = createAsyncThunk<void, TAuthInfo, AsyncThunkConfig>(
+  Actions.LOGIN,
+  async (credentials, thunkApi) => {
+    try {
+      const response = await thunkApi.extra.api.post<TUserEntity>(
+        API_ROUTES.USER.LOGIN,
+        { ...credentials }
+      );
+      setToken(response.data.token);
+      thunkApi.dispatch(setAuthorizationStatus(true));
+      thunkApi.dispatch(setUserData(response.data));
+    } catch (error) {
+      thunkApi.dispatch(setAuthorizationStatus(false));
+      thunkApi.dispatch(setUserData(null));
+    }
+  }
+);
+
+export const logout = createAsyncThunk<void, void, AsyncThunkConfig>(
+  Actions.LOGOUT,
+  async (_, thunkApi) => {
+    await thunkApi.extra.api.delete(API_ROUTES.USER.LOGOUT);
+    clearToken();
+    thunkApi.dispatch(setAuthorizationStatus(false));
+    thunkApi.dispatch(setUserData(null));
+  }
+);

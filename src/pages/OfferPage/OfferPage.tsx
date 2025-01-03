@@ -35,7 +35,7 @@ const OfferPage = (): JSX.Element => {
 
   return (
     <div className="page">
-      <Header isAuth />
+      <Header />
       <p>
         Заглушка до выполнения задания Добро пожаловать, или посторонним вход
         воспрещён часть 2
