@@ -12,7 +12,8 @@
       "@mocks/*": ["mocks/*"],
       "@typings/*": ["typings/*"],
       "@utils/*": ["utils/*"],
-      "@store/*": ["store/*"]
+      "@store/*": ["store/*"],
+      "@services/*": ["services/*"]
     },
 
     /* Bundler mode */

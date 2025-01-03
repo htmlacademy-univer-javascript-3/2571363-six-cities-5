@@ -41,7 +41,13 @@ export type TPlaceDescriptionItem = {
   text: string;
 };
 
-export type TPlaceEntity = {
+export type TPlaceEntityLocation = {
+  latitude: number;
+  longitude: number;
+  zoom: number;
+};
+
+export type TPlaceEntityOld = {
   id: string;
   city: City;
   latitude: number;
@@ -56,4 +62,17 @@ export type TPlaceEntity = {
   insideList: TPlaceInsideItem[];
   description: TPlaceDescriptionItem[];
   reviews: TReviewItem[];
+};
+
+export type TPlaceEntity = {
+  id: string;
+  city: City;
+  isFavorite: boolean;
+  isPremium: false;
+  location: TPlaceEntityLocation;
+  previewImage: string;
+  price: number;
+  rating: number;
+  title: string;
+  type: 'string';
 };

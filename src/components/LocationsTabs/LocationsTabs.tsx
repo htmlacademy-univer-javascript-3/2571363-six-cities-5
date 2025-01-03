@@ -4,7 +4,7 @@ import { cities } from '@mocks/Cities/Cities';
 
 export const LocationsTabs = () => {
   const dispatch = useAppDispatch();
-  const city = useAppSelector((state) => state.city);
+  const city = useAppSelector((state) => state.offersSlice.city);
 
   return (
     <div className="tabs">
@@ -14,7 +14,7 @@ export const LocationsTabs = () => {
             <li className="locations__item" key={cityName}>
               <a
                 className={`locations__item-link tabs__item ${
-                  cityName === city.title ? ' tabs__item--active' : ''
+                  cityName === city.name ? ' tabs__item--active' : ''
                 }`}
                 onClick={() => dispatch(setCity(cityObj))}
               >

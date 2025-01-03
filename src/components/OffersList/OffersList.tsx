@@ -26,15 +26,17 @@ const OffersList = ({
   }
 
   return (
-    <div className={classNames(containerClassName, 'places__list')}>
-      {offers.map((offer) => (
-        <PlaceCard
-          place={offer}
-          key={offer.id}
-          onOfferSelect={onOfferSelect}
-          type={type}
-        />
-      ))}
+    <div className="cities__places-list places__list tabs__content">
+      <div className={classNames(containerClassName, 'places__list')}>
+        {offers.map((offer) => (
+          <PlaceCard
+            place={offer}
+            key={offer.id}
+            onOfferSelect={onOfferSelect}
+            type={type}
+          />
+        ))}
+      </div>
     </div>
   );
 };

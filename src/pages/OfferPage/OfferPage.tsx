@@ -1,42 +1,46 @@
-import { useMemo } from 'react';
+// import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import NotFoundPage from '@pages/NotFoundPage/NotFoundPage';
-import Rating from '@components/Rating/Rating';
-import CommentForm from '@components/CommentForm/CommentForm';
+// import NotFoundPage from '@pages/NotFoundPage/NotFoundPage';
+// import Rating from '@components/Rating/Rating';
+// import CommentForm from '@components/CommentForm/CommentForm';
 import Header from '@components/Header/Header';
-import ReviewList from '@components/ReviewList/ReviewList';
-import Map from '@components/Map/Map';
-import OffersList from '@components/OffersList/OffersList';
-import { TPlaceEntity } from '@components/PlaceCard/PlaceCard.typings/PlaceCard.typings';
-import { Point, City } from '@typings/City/City';
-import offersToPoints from '@utils/offersToPoints/offersToPoints';
-import { allOffers } from '@mocks/offers/offers';
+// import ReviewList from '@components/ReviewList/ReviewList';
+// import Map from '@components/Map/Map';
+// import OffersList from '@components/OffersList/OffersList';
+// import { TPlaceEntity } from '@components/PlaceCard/PlaceCard.typings/PlaceCard.typings';
+// import { Point, City } from '@typings/City/City';
+// import offersToPoints from '@utils/offersToPoints/offersToPoints';
 
 const OfferPage = (): JSX.Element => {
   const { id } = useParams();
+  // eslint-disable-next-line no-console
+  console.log(id);
 
-  const place = useMemo(
-    () => allOffers.find(({ id: offerId }) => offerId === id),
-    [id]
-  );
+  // const place = useMemo(
+  //   () => allOffers.find(({ id: offerId }) => offerId === id),
+  //   [id]
+  // );
 
-  if (!place) {
-    return <NotFoundPage />;
-  }
+  // if (!place) {
+  //   return <NotFoundPage />;
+  // }
 
-  const currentCity: City = place.city;
+  // const currentCity: City = place.city;
 
-  const nearbyOffers: TPlaceEntity[] = allOffers.filter(
-    (offer: TPlaceEntity) => offer.id !== place.id && offer.city === currentCity
-  );
+  // const nearbyOffers: TPlaceEntity[] = allOffers.filter(
+  //   (offer: TPlaceEntity) => offer.id !== place.id && offer.city === currentCity
+  // );
 
-  const nearbyPoints: Point[] = offersToPoints(nearbyOffers);
+  // const nearbyPoints: Point[] = offersToPoints(nearbyOffers);
 
   return (
     <div className="page">
       <Header isAuth />
-
-      <main className="page__main page__main--offer">
+      <p>
+        Заглушка до выполнения задания Добро пожаловать, или посторонним вход
+        воспрещён часть 2
+      </p>
+      {/* <main className="page__main page__main--offer">
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
@@ -153,7 +157,7 @@ const OfferPage = (): JSX.Element => {
             <OffersList offers={nearbyOffers} type="Nearby" />
           </section>
         </div>
-      </main>
+      </main> */}
     </div>
   );
 };
