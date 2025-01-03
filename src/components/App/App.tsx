@@ -6,24 +6,20 @@ import OfferPage from '@pages/OfferPage/OfferPage';
 import NotFoundPage from '@pages/NotFoundPage/NotFoundPage';
 import AuthChecker from '@components/AuthChecker/AuthChecker';
 import useAppInit from '@utils/useInitApp/useInitApp';
+import { APP_ROUTES } from '@services/constants';
 
 function App(): JSX.Element {
   useAppInit();
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path={APP_ROUTES.MAIN} element={<MainPage />} />
+        <Route path={APP_ROUTES.LOGIN} element={<LoginPage />} />
         <Route
-          path="/favorites"
-          element={
-            <AuthChecker
-              element={<FavoritesPage places={[]} />}
-              isAuthorized={false}
-            />
-          }
+          path={APP_ROUTES.FAVORITES}
+          element={<AuthChecker element={<FavoritesPage places={[]} />} />}
         />
-        <Route path="/offer/:id" element={<OfferPage />} />
+        <Route path={APP_ROUTES.OFFER} element={<OfferPage />} />
         <Route path="/*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
