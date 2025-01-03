@@ -148,7 +148,6 @@ const OfferPage = (): JSX.Element => {
             <Map
               city={offer.city}
               points={activePoint ? [...activePoint, ...nearbyPoints] : []}
-              selectedPoint={activePoint ? activePoint[0] : undefined}
             />
           </section>
         </section>

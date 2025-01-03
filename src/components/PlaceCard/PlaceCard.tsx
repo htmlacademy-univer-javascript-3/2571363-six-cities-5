@@ -1,15 +1,14 @@
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
+import { useAppDispatch } from '@store/hooks';
 import Rating from '@components/Rating/Rating';
 import BookmarkButton from '@components/BookmarkButton/BookmarkButton';
 import { TPlaceEntity } from './PlaceCard.typings/PlaceCard.typings';
-import { Point } from '@typings/City/City';
-import offersToPoints from '@utils/offersToPoints/offersToPoints';
+import { setOfferActive } from '@store/actions';
 
 type TPlaceProps = {
   place: TPlaceEntity;
   type: 'Main' | 'Favorites' | 'Nearby';
-  onOfferSelect?: (point: Point | undefined) => void;
 };
 
 const offerViewConfig = {
@@ -33,16 +32,16 @@ const offerViewConfig = {
   },
 };
 
-function PlaceCard({ place, type, onOfferSelect }: TPlaceProps): JSX.Element {
-  const offerPoint = offersToPoints([place])[0];
+function PlaceCard({ place, type }: TPlaceProps): JSX.Element {
+  const dispatch = useAppDispatch();
 
   const viewConfig = offerViewConfig[type];
 
   return (
     <article
       className={classNames(viewConfig.cardClassName, 'place-card')}
-      onMouseOver={onOfferSelect ? () => onOfferSelect(offerPoint) : undefined}
-      onMouseLeave={onOfferSelect ? () => onOfferSelect(undefined) : undefined}
+      onMouseOver={() => dispatch(setOfferActive(place))}
+      onMouseLeave={() => dispatch(setOfferActive(null))}
     >
       {place.isPremium ? (
         <div className="place-card__mark">
