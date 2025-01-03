@@ -7,7 +7,7 @@ import 'leaflet/dist/leaflet.css';
 type TMapProps = {
   city: City;
   points: Point[];
-  selectedPoint: Point | undefined;
+  selectedPoint?: Point | undefined;
 };
 
 const defaultCustomIcon = new Icon({
@@ -41,7 +41,7 @@ function Map(props: TMapProps): JSX.Element {
           .setIcon(
             selectedPoint !== undefined &&
               point.lat === selectedPoint.lat &&
-              point.lng === selectedPoint?.lng
+              point.lng === selectedPoint.lng
               ? currentCustomIcon
               : defaultCustomIcon
           )
@@ -54,11 +54,7 @@ function Map(props: TMapProps): JSX.Element {
     }
   }, [map, points, selectedPoint]);
 
-  return (
-    <section className="cities__map map" style={{ background: 'none' }}>
-      <div style={{ height: '100%' }} ref={mapRef}></div>
-    </section>
-  );
+  return <div style={{ height: '100%' }} ref={mapRef}></div>;
 }
 
 export default Map;
