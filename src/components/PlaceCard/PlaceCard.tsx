@@ -74,7 +74,7 @@ function PlaceCard({ place, type, onOfferSelect }: TPlaceProps): JSX.Element {
           <BookmarkButton marked={type === 'Favorites'} />
         </div>
         <Rating
-          starValue={place.rating}
+          value={place.rating}
           containerClassName={'place-card__rating'}
           starsClassName={'place-card__stars'}
         />
