@@ -1,19 +1,13 @@
 import classNames from 'classnames';
 import PlaceCard from '@components/PlaceCard/PlaceCard';
 import { TPlaceEntity } from '@components/PlaceCard/PlaceCard.typings/PlaceCard.typings';
-import { Point } from '@typings/City/City';
 
 type TOffersListProps = {
   offers: TPlaceEntity[];
   type: 'Main' | 'Nearby';
-  onOfferSelect?: (point: Point | undefined) => void;
 };
 
-const OffersList = ({
-  offers,
-  type,
-  onOfferSelect,
-}: TOffersListProps): JSX.Element => {
+const OffersList = ({ offers, type }: TOffersListProps): JSX.Element => {
   let containerClassName: string;
 
   switch (type) {
@@ -29,12 +23,7 @@ const OffersList = ({
     <div className="cities__places-list places__list tabs__content">
       <div className={classNames(containerClassName, 'places__list')}>
         {offers.map((offer) => (
-          <PlaceCard
-            place={offer}
-            key={offer.id}
-            onOfferSelect={onOfferSelect}
-            type={type}
-          />
+          <PlaceCard place={offer} key={offer.id} type={type} />
         ))}
       </div>
     </div>

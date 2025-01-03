@@ -9,13 +9,12 @@ import { SortOrder } from '@components/SortingFilter/SortingFilter.typings/Sorti
 import Spinner from '@components/Spinner/Spinner';
 import { updateCityOffers } from '@store/actions';
 import offersToPoints from '@utils/offersToPoints/offersToPoints';
-import { Point } from '@typings/City/City';
 
 const MainPage = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const { loading, city, cityOffers } = useAppSelector(
-    (state) => state.offersSlice
-  );
+  const loading = useAppSelector((state) => state.offersSlice.loading);
+  const city = useAppSelector((state) => state.offersSlice.city);
+  const cityOffers = useAppSelector((state) => state.offersSlice.cityOffers);
 
   useEffect(() => {
     if (!loading) {
@@ -29,10 +28,6 @@ const MainPage = (): JSX.Element => {
   };
 
   const mapPoints = useMemo(() => offersToPoints(cityOffers), [cityOffers]);
-  const [activePoint, setActivePoint] = useState<Point | undefined>(undefined);
-  const handleOfferSelect = (point: Point | undefined) => {
-    setActivePoint(point);
-  };
 
   return (
     <div className="page page--gray page--main">
@@ -54,11 +49,7 @@ const MainPage = (): JSX.Element => {
                   currentFilter={filter}
                   onFilterChange={handleFilterChange}
                 />
-                <OffersList
-                  offers={cityOffers}
-                  type="Main"
-                  onOfferSelect={handleOfferSelect}
-                />
+                <OffersList offers={cityOffers} type="Main" />
               </section>
               <div className="cities__right-section">
                 <section
@@ -66,11 +57,7 @@ const MainPage = (): JSX.Element => {
                   style={{ background: 'none' }}
                 >
                   {' '}
-                  <Map
-                    city={city}
-                    points={mapPoints}
-                    selectedPoint={activePoint}
-                  />
+                  <Map city={city} points={mapPoints} />
                 </section>
               </div>
             </div>

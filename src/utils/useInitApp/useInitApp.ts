@@ -1,13 +1,18 @@
 import { useEffect } from 'react';
-import { useAppDispatch } from '@store/hooks';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { getGlobalOffers, validateUser } from '@store/actions';
 
 function useAppInit() {
   const dispatch = useAppDispatch();
+  const authorizationStatus = useAppSelector(
+    (state) => state.userSlice.authorizationStatus
+  );
   useEffect(() => {
-    dispatch(validateUser());
+    if (authorizationStatus) {
+      dispatch(validateUser());
+    }
     dispatch(getGlobalOffers());
-  }, [dispatch]);
+  }, [dispatch, authorizationStatus]);
 }
 
 export default useAppInit;

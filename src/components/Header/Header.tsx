@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { APP_ROUTES } from '@services/constants';
 import { logout } from '@store/actions';
 
-const Header = (): JSX.Element | null => {
+const Header = memo((): JSX.Element | null => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { authorizationStatus, userData } = useAppSelector(
@@ -72,6 +72,7 @@ const Header = (): JSX.Element | null => {
       </div>
     </header>
   );
-};
+});
+Header.displayName = 'Header';
 
 export default Header;

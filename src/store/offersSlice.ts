@@ -4,6 +4,7 @@ import {
   setCityOffers,
   setSortOrder,
   getGlobalOffers,
+  setOfferActive,
 } from './actions';
 import { TPlaceEntity } from '@components/PlaceCard/PlaceCard.typings/PlaceCard.typings';
 import { City } from '@typings/City/City';
@@ -17,6 +18,7 @@ type OffersState = {
   cityOffers: TPlaceEntity[];
   city: City;
   sortOrder: SortOrder;
+  activeOffer: TPlaceEntity | null;
 };
 
 const initialState: OffersState = {
@@ -26,6 +28,7 @@ const initialState: OffersState = {
   cityOffers: [],
   city: cities.Paris,
   sortOrder: SortOrder.POPULAR,
+  activeOffer: null,
 };
 
 const offersSlice = createSlice({
@@ -55,6 +58,9 @@ const offersSlice = createSlice({
       .addCase(getGlobalOffers.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'Something went wrong';
+      })
+      .addCase(setOfferActive, (state, action) => {
+        state.activeOffer = action.payload;
       });
   },
 });

@@ -1,13 +1,14 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useMemo } from 'react';
 import { Icon, Marker, layerGroup } from 'leaflet';
+import { useAppSelector } from '@store/hooks';
 import useMap from './Map.utils/useMap';
 import { City, Point } from '@typings/City/City';
 import 'leaflet/dist/leaflet.css';
+import offersToPoints from '@utils/offersToPoints/offersToPoints';
 
 type TMapProps = {
   city: City;
   points: Point[];
-  selectedPoint?: Point | undefined;
 };
 
 const defaultCustomIcon = new Icon({
@@ -23,7 +24,14 @@ const currentCustomIcon = new Icon({
 });
 
 function Map(props: TMapProps): JSX.Element {
-  const { city, points, selectedPoint } = props;
+  const { city, points } = props;
+
+  const activeOffer = useAppSelector((state) => state.offersSlice.activeOffer);
+  const selectedPoint = useMemo(() => {
+    if (activeOffer) {
+      return offersToPoints([activeOffer])[0];
+    }
+  }, [activeOffer]);
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);

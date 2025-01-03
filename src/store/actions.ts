@@ -24,6 +24,7 @@ export const Actions = {
   APPLY_SORT_ORDER: 'sortOrder/apply',
   UPDATE_CITY_OFFERS: 'cityOffers/update',
   FETCH_GLOBAL_OFFERS: 'globalOffers/fetch',
+  SET_ACTIVE_OFFER: 'offer/hover',
   // юзер
   SET_AUTHORIZATION_STATUS: 'authorizationStatus/set',
   SET_USER_DATA: 'userData/set',
@@ -48,6 +49,10 @@ export const setCityOffers = createAction<TPlaceEntity[]>(
 );
 
 export const setSortOrder = createAction<SortOrder>(Actions.SET_SORT_ORDER);
+
+export const setOfferActive = createAction<TPlaceEntity | null>(
+  Actions.SET_ACTIVE_OFFER
+);
 
 export const setGlobalOffers = createAction<SortOrder>(
   Actions.SET_GLOBAL_OFFERS
