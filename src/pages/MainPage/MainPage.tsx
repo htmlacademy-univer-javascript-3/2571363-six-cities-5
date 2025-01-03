@@ -61,11 +61,17 @@ const MainPage = (): JSX.Element => {
                 />
               </section>
               <div className="cities__right-section">
-                <Map
-                  city={city}
-                  points={mapPoints}
-                  selectedPoint={activePoint}
-                />
+                <section
+                  className="cities__map map"
+                  style={{ background: 'none' }}
+                >
+                  {' '}
+                  <Map
+                    city={city}
+                    points={mapPoints}
+                    selectedPoint={activePoint}
+                  />
+                </section>
               </div>
             </div>
           </div>

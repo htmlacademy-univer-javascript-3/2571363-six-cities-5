@@ -1,16 +1,16 @@
 export const API_ROUTES = {
   OFFERS: {
     GET_GLOBAL: '/offers',
-    GET_EXACT: '/offers/{offerId}',
-    GET_NEARBY: '/offers/{offerId}/nearby',
+    GET_EXACT: (offerId: string) => `/offers/${offerId}`,
+    GET_NEARBY: (offerId: string) => `/offers/${offerId}/nearby`,
   },
   FAVORITE: {
     GET: '/favorite',
-    SET: '/favorite/{offerId}/{status}',
+    SET: (offerId: string, status: string) => `/favorite/${offerId}/${status}`,
   },
   COMMENTS: {
-    GET: '/comments/{offerId}',
-    POST: '/comments/{offerId}',
+    GET: (offerId: string) => `/comments/${offerId}`,
+    POST: (offerId: string) => `/comments/${offerId}`,
   },
   USER: {
     VALIDATE: '/login',
@@ -23,7 +23,7 @@ export const APP_ROUTES = {
   MAIN: '/',
   LOGIN: '/login',
   FAVORITES: 'favorites',
-  OFFER: '/offer/:id',
+  OFFER: (offerId: string) => `/offer/${offerId}`,
 };
 
 export const TOKEN_HEADER = 'X-Token';

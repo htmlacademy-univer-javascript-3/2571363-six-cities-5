@@ -1,8 +1,8 @@
 import Review from '@components/Review/Review';
-import { TReviewItem } from '@typings/Review/Review';
+import { TCommentEntityFull } from '@components/PlaceCard/PlaceCard.typings/PlaceCard.typings';
 
 type ReviewsListProps = {
-  reviews: TReviewItem[];
+  reviews: TCommentEntityFull[];
 };
 
 function ReviewList({ reviews }: ReviewsListProps): JSX.Element {

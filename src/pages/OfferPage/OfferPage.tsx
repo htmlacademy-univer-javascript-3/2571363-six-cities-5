@@ -1,69 +1,76 @@
-// import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-// import NotFoundPage from '@pages/NotFoundPage/NotFoundPage';
-// import Rating from '@components/Rating/Rating';
-// import CommentForm from '@components/CommentForm/CommentForm';
+import ErrorPage from '@pages/ErrorPage/ErrorPage';
+import Rating from '@components/Rating/Rating';
+import CommentForm from '@components/CommentForm/CommentForm';
 import Header from '@components/Header/Header';
-// import ReviewList from '@components/ReviewList/ReviewList';
-// import Map from '@components/Map/Map';
-// import OffersList from '@components/OffersList/OffersList';
-// import { TPlaceEntity } from '@components/PlaceCard/PlaceCard.typings/PlaceCard.typings';
-// import { Point, City } from '@typings/City/City';
-// import offersToPoints from '@utils/offersToPoints/offersToPoints';
+import ReviewList from '@components/ReviewList/ReviewList';
+import Map from '@components/Map/Map';
+import OffersList from '@components/OffersList/OffersList';
+import Spinner from '@components/Spinner/Spinner';
+import { fetchOffer } from '@store/actions';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import offersToPoint from '@utils/offersToPoints/offersToPoints';
 
 const OfferPage = (): JSX.Element => {
+  const dispatch = useAppDispatch();
   const { id } = useParams();
-  // eslint-disable-next-line no-console
-  console.log(id);
+  const authorizationStatus = useAppSelector(
+    (state) => state.userSlice.authorizationStatus
+  );
+  const { offer, comments, nearbyOffers, offerLoading, offerError } =
+    useAppSelector((state) => state.offerSlice);
 
-  // const place = useMemo(
-  //   () => allOffers.find(({ id: offerId }) => offerId === id),
-  //   [id]
-  // );
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchOffer(id));
+    }
+  }, [id, dispatch]);
 
-  // if (!place) {
-  //   return <NotFoundPage />;
-  // }
+  const nearbyPoints = useMemo(
+    () => offersToPoint(nearbyOffers),
+    [nearbyOffers]
+  );
 
-  // const currentCity: City = place.city;
+  const activePoint = useMemo(
+    () => (offer ? offersToPoint([offer]) : undefined),
+    [offer]
+  );
 
-  // const nearbyOffers: TPlaceEntity[] = allOffers.filter(
-  //   (offer: TPlaceEntity) => offer.id !== place.id && offer.city === currentCity
-  // );
+  if (offerLoading && !offerError) {
+    return <Spinner variant="page" />;
+  }
 
-  // const nearbyPoints: Point[] = offersToPoints(nearbyOffers);
+  if (!offer || offerError) {
+    return <ErrorPage description={'Offer not found'} />;
+  }
+
+  const selectedImages =
+    offer.images.length > 6 ? offer.images.slice(0, 6) : offer.images;
 
   return (
     <div className="page">
       <Header />
-      <p>
-        Заглушка до выполнения задания Добро пожаловать, или посторонним вход
-        воспрещён часть 2
-      </p>
-      {/* <main className="page__main page__main--offer">
+      <main className="page__main page__main--offer">
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {place.images.map((image) => (
-                <div className="offer__image-wrapper" key={image.id}>
-                  <img
-                    className="offer__image"
-                    src={image.src}
-                    alt={image.alt}
-                  />
+              {selectedImages.map((image) => (
+                <div className="offer__image-wrapper" key={image}>
+                  <img className="offer__image" src={image} alt={image} />
                 </div>
               ))}
             </div>
           </div>
           <div className="offer__container container">
             <div className="offer__wrapper">
-              {place.mark ? (
+              {offer.isPremium ? (
                 <div className="offer__mark">
-                  <span>{place.mark}</span>
+                  <span>Premium</span>
                 </div>
               ) : null}
               <div className="offer__name-wrapper">
-                <h1 className="offer__name">{place.name}</h1>
+                <h1 className="offer__name">{offer.title}</h1>
                 <button className="offer__bookmark-button button" type="button">
                   <svg className="offer__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
@@ -72,36 +79,36 @@ const OfferPage = (): JSX.Element => {
                 </button>
               </div>
               <Rating
-                starValue={place.rating.starValue}
-                numericValue={place.rating.numericValue}
+                value={offer.rating}
+                showRawValue
                 containerClassName="offer__rating"
                 starsClassName="offer__stars"
               />
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">
-                  {place.features.placeType}
+                  {offer.type.charAt(0).toUpperCase() + offer.type.slice(1)}
                 </li>
-                {place.features.bedroomCount ? (
-                  <li className="offer__feature offer__feature--bedrooms">
-                    {`${place.features.bedroomCount} Bedrooms`}
-                  </li>
-                ) : null}
+                <li className="offer__feature offer__feature--bedrooms">
+                  {`${offer.bedrooms} Bedroom${
+                    offer.bedrooms === 1 ? '' : 's'
+                  }`}
+                </li>
                 <li className="offer__feature offer__feature--adults">
-                  {`Max ${place.features.maxAdultOccupancy} adults`}
+                  {`Max ${offer.maxAdults} adult${
+                    offer.maxAdults === 1 ? '' : 's'
+                  }`}
                 </li>
               </ul>
               <div className="offer__price">
-                <b className="offer__price-value">&euro;{place.price.value}</b>
-                <span className="offer__price-text">
-                  &nbsp;{place.price.period}
-                </span>
+                <b className="offer__price-value">&euro;{offer.price}</b>
+                <span className="offer__price-text">&nbsp;night</span>
               </div>
               <div className="offer__inside">
                 <h2 className="offer__inside-title">What&apos;s inside</h2>
                 <ul className="offer__inside-list">
-                  {place.insideList.map((item) => (
-                    <li className="offer__inside-item" key={item.id}>
-                      {item.text}
+                  {offer.goods.map((item) => (
+                    <li className="offer__inside-item" key={item}>
+                      {item}
                     </li>
                   ))}
                 </ul>
@@ -112,41 +119,37 @@ const OfferPage = (): JSX.Element => {
                   <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
                     <img
                       className="offer__avatar user__avatar"
-                      src={place.host.avatarImageSrc}
+                      src={offer.host.avatarUrl}
                       width="74"
                       height="74"
                       alt="Host avatar"
                     />
                   </div>
-                  <span className="offer__user-name">{place.host.name}</span>
-                  {place.host.status ? (
-                    <span className="offer__user-status">
-                      {place.host.status}
-                    </span>
+                  <span className="offer__user-name">{offer.host.name}</span>
+                  {offer.host.isPro ? (
+                    <span className="offer__user-status">Pro</span>
                   ) : null}
                 </div>
                 <div className="offer__description">
-                  {place.description.map((item) => (
-                    <p className="offer__text" key={item.id}>
-                      {item.text}
-                    </p>
-                  ))}
+                  <p className="offer__text">{offer.description}</p>
                 </div>
               </div>
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">
                   Reviews &middot;{' '}
-                  <span className="reviews__amount">
-                    {place.reviews.length}
-                  </span>
+                  <span className="reviews__amount">{comments.length}</span>
                 </h2>
-                <ReviewList reviews={place.reviews} />
-                <CommentForm />
+                <ReviewList reviews={comments} />
+                {authorizationStatus ? <CommentForm offerId={id!} /> : null}
               </section>
             </div>
           </div>
           <section className="offer__map map">
-            <Map city={currentCity} points={nearbyPoints} />
+            <Map
+              city={offer.city}
+              points={activePoint ? [...activePoint, ...nearbyPoints] : []}
+              selectedPoint={activePoint ? activePoint[0] : undefined}
+            />
           </section>
         </section>
         <div className="container">
@@ -157,7 +160,7 @@ const OfferPage = (): JSX.Element => {
             <OffersList offers={nearbyOffers} type="Nearby" />
           </section>
         </div>
-      </main> */}
+      </main>
     </div>
   );
 };

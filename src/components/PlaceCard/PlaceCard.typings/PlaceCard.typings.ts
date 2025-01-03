@@ -1,67 +1,10 @@
 import { City } from '@typings/City/City';
-import { TReviewItem } from '@typings/Review/Review';
 import { TUserEntity } from '@typings/User/User';
-
-export type TPlacePriceType = 'night';
-
-export type TPlaceType = 'Apartment' | 'Room';
-
-export type TPlaceImage = {
-  id: number;
-  src: string;
-  alt: string;
-  isCoverImage?: boolean;
-};
-
-export type TPlaceMark = 'Premium';
-
-export type TPlaceRating = {
-  numericValue: number;
-  starValue: number;
-};
-
-export type TPlaceFeatures = {
-  placeType: TPlaceType;
-  bedroomCount?: number;
-  maxAdultOccupancy: number;
-};
-
-export type TPlacePrice = {
-  value: number;
-  period: 'night';
-};
-
-export type TPlaceInsideItem = {
-  id: number;
-  text: string;
-};
-
-export type TPlaceDescriptionItem = {
-  id: number;
-  text: string;
-};
 
 export type TPlaceEntityLocation = {
   latitude: number;
   longitude: number;
   zoom: number;
-};
-
-export type TPlaceEntityOld = {
-  id: string;
-  city: City;
-  latitude: number;
-  longitude: number;
-  images: TPlaceImage[];
-  mark?: TPlaceMark;
-  name: string;
-  host: TUserEntity;
-  rating: TPlaceRating;
-  features: TPlaceFeatures;
-  price: TPlacePrice;
-  insideList: TPlaceInsideItem[];
-  description: TPlaceDescriptionItem[];
-  reviews: TReviewItem[];
 };
 
 export type TPlaceEntity = {
@@ -75,4 +18,24 @@ export type TPlaceEntity = {
   rating: number;
   title: string;
   type: 'string';
+};
+
+export type TPlaceEntityFull = TPlaceEntity & {
+  description: string;
+  bedrooms: number;
+  goods: string[];
+  host: TUserEntity;
+  images: string[];
+  maxAdults: number;
+};
+
+export type TCommentEntity = {
+  comment: string;
+  rating: number;
+};
+
+export type TCommentEntityFull = TCommentEntity & {
+  id: string;
+  date: string;
+  user: TUserEntity;
 };

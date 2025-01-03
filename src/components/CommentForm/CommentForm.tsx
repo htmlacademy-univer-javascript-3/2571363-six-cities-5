@@ -1,12 +1,19 @@
 import { useEffect, useState } from 'react';
+import { useAppDispatch } from '@store/hooks';
+import { postComment } from '@store/actions';
 
-function CommentForm(): JSX.Element {
+type TCommentFormProps = {
+  offerId: string;
+};
+
+function CommentForm({ offerId }: TCommentFormProps): JSX.Element {
+  const dispatch = useAppDispatch();
   const [rating, setRating] = useState(0);
   const [text, setText] = useState('');
   const [submitDisabled, setSubmitDisabled] = useState(true);
 
   useEffect(() => {
-    if (rating === 0 || text.length < 50) {
+    if (rating === 0 || text.length < 50 || text.length > 300) {
       setSubmitDisabled(true);
     } else {
       setSubmitDisabled(false);
@@ -19,6 +26,12 @@ function CommentForm(): JSX.Element {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    dispatch(
+      postComment({
+        offerId: offerId,
+        comment: { comment: text, rating: rating },
+      })
+    );
   };
 
   return (
